@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wrk2
+  labels:
+    app: wrk2
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: wrk2
+  template:
+    metadata:
+      labels:
+        app: wrk2
+    spec:
+      containers:
+        - name: wrk2
+          image: theo01/wrk2:latest
+          args:
+            - --threads 2
+            # connections to keep open
+            - --connections 100
+            # duration of test
+            - --duration 30s
+            # requests/sec (total)
+            - --rate 2000
+            - "http://helloworld.tkma7.k8s.ginger.eu-central-1.aws.gigantic.io/"
